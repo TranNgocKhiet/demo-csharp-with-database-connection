@@ -1,7 +1,5 @@
 ﻿using BusinessObjects;
 using Services;
-using System;
-using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace TranNgocKhietWPF
@@ -22,8 +20,7 @@ namespace TranNgocKhietWPF
                 txtPassword.Text = existingCustomer.Password;
 
                 txtBirthday.Text = existingCustomer.CustomerBirthday.HasValue
-                    ? existingCustomer.CustomerBirthday.Value.ToString("yyyy-MM-dd")
-                    : "";
+                    ? existingCustomer.CustomerBirthday.Value.ToString("yyyy-MM-dd") : "";
 
                 Customer = existingCustomer;
             }
@@ -37,66 +34,18 @@ namespace TranNgocKhietWPF
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(txtFullName.Text))
-                {
-                    MessageBox.Show("Full name is required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                string telephone = txtTelephone.Text.Trim();
-                if (string.IsNullOrWhiteSpace(telephone))
-                {
-                    MessageBox.Show("Telephone is required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                if (!Regex.IsMatch(telephone, @"^\d{10}$"))
-                {
-                    MessageBox.Show("Telephone must contain only digits (10 numbers).", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                if (!Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-                {
-                    MessageBox.Show("Invalid email format.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtPassword.Text))
-                {
-                    MessageBox.Show("Password is required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                if (!DateOnly.TryParse(txtBirthday.Text, out DateOnly birthday))
-                {
-                    MessageBox.Show("Invalid birthday format. Use yyyy-MM-dd.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                if (!byte.TryParse(txtStatus.Text, out byte status))
-                {
-                    MessageBox.Show("Status must be a number (1 = Active, 2 = Inactive).", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                if (status != 1 && status != 2)
-                {
-                    MessageBox.Show("Status must be 1 (Active) or 2 (Inactive).", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                Customer.CustomerFullName = txtFullName.Text.Trim();
-                Customer.Telephone = txtTelephone.Text.Trim();
-                Customer.EmailAddress = txtEmail.Text.Trim();
+                Customer.CustomerFullName = txtFullName.Text;
+                Customer.Telephone = txtTelephone.Text;
+                Customer.EmailAddress = txtEmail.Text;
+                Customer.CustomerBirthday = DateOnly.Parse(txtBirthday.Text);
+                Customer.CustomerStatus = Byte.Parse(txtStatus.Text);
                 Customer.Password = txtPassword.Text;
-                Customer.CustomerBirthday = birthday;
-                Customer.CustomerStatus = status;
 
                 DialogResult = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unexpected error: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Input error: " + ex.Message);
             }
         }
 

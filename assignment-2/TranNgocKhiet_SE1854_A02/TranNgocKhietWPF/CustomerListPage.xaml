@@ -75,23 +75,7 @@
                 <DataGridTextColumn Header="Telephone" Binding="{Binding Telephone}" />
                 <DataGridTextColumn Header="Email Address" Binding="{Binding EmailAddress}" />
                 <DataGridTextColumn Header="Birthday" Binding="{Binding CustomerBirthday, StringFormat='dd/MM/yyyy'}"/>
-
-                <DataGridTemplateColumn Header="Status">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock x:Name="StatusText"/>
-                            <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding CustomerStatus}" Value="1">
-                                    <Setter TargetName="StatusText" Property="Text" Value="Active"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding CustomerStatus}" Value="2">
-                                    <Setter TargetName="StatusText" Property="Text" Value="Deleted"/>
-                                </DataTrigger>
-                            </DataTemplate.Triggers>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                
+                <DataGridTextColumn Header="Status" Binding="{Binding CustomerStatus}" />
                 <DataGridTextColumn Header="Password" Binding="{Binding Password}" />
             </DataGrid.Columns>
         </DataGrid>
